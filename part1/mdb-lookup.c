@@ -13,5 +13,18 @@
 
 int main(int argc, char **arv)
 {
+    if (argc != 2) {
+        fprintf(stderr, "s%\n", "usage: mdb-lookup.c <file_name>");
+        exit(1);
+    }
+
+    char *filename = argv[1];
+    File *fp = (filename, "rb");
+    if (fp == NULL) {
+        perror(filename);
+        exit(1);
+    }
+
+    fclose(fp);
     return 0;
 }

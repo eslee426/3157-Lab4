@@ -9,9 +9,12 @@ LDLIBS =  -lmylist
 mdb-lookup: mdb-lookup.o 
 mdb-lookup.o: mdb.h mdb-lookup.c
 
+mdb-add: mdb-add.o
+mdb-add.o: mdb.h mdb-add.c
+
 .PHONY: clean
 clean:
-	rm -f *.o a.out core mdb-lookup
+	rm -f *.o a.out core mdb-lookup mdb-add
 
 .PHONY: all
-all: clean mdb-lookup
+all: clean mdb-lookup mdb-add
