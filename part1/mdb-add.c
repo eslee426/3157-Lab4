@@ -3,7 +3,17 @@
 #include <string.h>
 #include "mdb.h"
 #include "mylist.h"
+#include "ctype.h"
 
+static void clean(char* c)
+{
+	while (*c)
+	{
+		if (isprint(c++)!=0)
+			*c = ' ';
+	}
+}
+	
 int main(int argc, char **argv)
 {
 	struct MdbRec myRec;
@@ -42,6 +52,7 @@ int main(int argc, char **argv)
 	{
 		myRec.msg[strlen(myRec.msg)-1] = '\0';
 	}	
+	fflush(stdout);
 	fclose(fp);
 	return 0;
 }
