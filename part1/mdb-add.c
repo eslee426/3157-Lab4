@@ -4,20 +4,28 @@
 #include "mdb.h"
 #include "mylist.h"
 #include "ctype.h"
-
 static void clean(char* c)
 {
 	while (*c)
 	{
-		if (isprint(c++)!=0)
-			*c = ' ';
+		if (isprint(*c)!=0)
+			*c++ = ' ';
 	}
 }
 	
 int main(int argc, char **argv)
 {
+	struct List mdbList;
+	initlist(&mdbList);
+
 	struct MdbRec myRec;
 	char line[1000];
+
+	if (argc !=2)
+	{
+		fprintf(stderr, "%s\n", "usage: mdb-add <database_file>");
+		exit(1);
+	}
 
 	FILE *fp = fopen(argv[1], "ab");
 	if(fp == NULL)
@@ -31,6 +39,8 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 	
+	printf("Enter name (will truncate to %d chars): ", (int)(sizeof(myRec.name)-1));
+	
 	strncpy(myRec.name, line, sizeof(myRec.name)-1);
 	myRec.name[sizeof(r.name) -1] = '\0';
 
@@ -38,7 +48,9 @@ int main(int argc, char **argv)
 	{
 		myRec.name[strlen(myRec.name)-1] = '\0';
 	}
-
+	
+	
+	printf("Enter message (will truncate to %d chars): ", (int)(sizeof(myRec.msg)-1));
 	if (fgets(line, sizeof(line), stdin) == NULL)
 	{
 		fprintf(stderr, "%s\n", "Unable to read message");
@@ -52,6 +64,26 @@ int main(int argc, char **argv)
 	{
 		myRec.msg[strlen(myRec.msg)-1] = '\0';
 	}	
+	
+	int size = loadmdb(&fp, &mdbList);
+	mdbList.addFront(&list, &myRec);
+
+	if (fwrite(&myRec, sizeof(r), 1, fp) < 1)
+	{
+		perror("unable to write");
+		exit(1);
+	}
+
+	if (fflush(fp)!=0)
+	{
+		perror("unable to write");
+		exit(1);
+	}	
+
+	prinf("successfully added: \n"
+		"	name = {%s}\n"
+		" 	msg = {%s}\n", myRec.name, myRec.msg);
+
 	fflush(stdout);
 	fclose(fp);
 	return 0;
