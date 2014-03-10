@@ -1,5 +1,7 @@
 /*
- * mdb.h
+ * Given by Jae
+ * File: mdb.h
+ * Description: Header file for both mdb-lookup, mdb-add and mdb.c
  */
 
 #ifndef _MDB_H_

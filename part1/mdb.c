@@ -1,9 +1,16 @@
+/*
+ * Written by: Elisha Lee and Alice Chang
+ * File: mdb.c
+ * Description: contains loadmdb and freemdb for mdb-lookup and mdb-add
+ */
+
 #include "mdb.h"
 #include "mylist.h"
 #include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
 
+// loads given file and puts data in linked list
 int loadmdb(FILE *fp, struct List *dest) {
     struct MdbRec myRec;
     struct Node *node = NULL;
@@ -36,13 +43,12 @@ int loadmdb(FILE *fp, struct List *dest) {
     return count;
 }
 
-
+// frees all memeory allocated
 void freemdb(struct List *list) {
 	struct Node *current = list->head;
-	while(current)//iterates through list and pops all nodes
-	{
-		current = current->next;
-		free(popFront(list));
+	// iterates through list and pops all nodes
+        while(current) {
+            current = current->next;
+            free(popFront(list));
 	}
-	
 }

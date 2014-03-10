@@ -1,10 +1,8 @@
 /*
- * Name: Elisha Lee
- * UNI: esl2131
+ * Written By: Elisha Lee
  * File: mdb-lookup.c
- * Description: 
+ * Description: either prints all records in database or performs a search 
  */
-
 
 #include "mdb.h"
 #include "mylist.h"
@@ -59,6 +57,7 @@ int main(int argc, char **argv)
             node = node->next;
             count++;
         }
+
         // asks for another lookup
         printf("\nlookup: ");
         fflush(stdout);
@@ -68,8 +67,9 @@ int main(int argc, char **argv)
         perror("stdin error");
         exit(1);
     }
-    freemdb(&mdbList);
 
+    //deallocates memory
+    freemdb(&mdbList);
     fclose(fp);
     return 0;
 }
