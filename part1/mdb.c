@@ -38,7 +38,11 @@ int loadmdb(FILE *fp, struct List *dest) {
 
 
 void freemdb(struct List *list) {
-    // frees record in memory
-    traverseList(list, free);
-    removeAllNodes(list);
+	struct Node *current = list->head;
+	while(current)//iterates through list and pops all nodes
+	{
+		current = current->next;
+		free(popFront(list));
+	}
+	
 }
