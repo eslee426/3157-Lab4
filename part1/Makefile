@@ -15,7 +15,7 @@ mdb-add.o: mdb.h mdb-add.c
 mdb.o: mdb.h mdb.c
 .PHONY: clean
 clean:
-  rm -f *.o a.out core mdb-lookup mdb-add
+	 rm -f *.o a.out core mdb-lookup mdb-add
 
 .PHONY: all
 all: clean mdb-lookup mdb-add
