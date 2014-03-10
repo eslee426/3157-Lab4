@@ -34,7 +34,6 @@ int main(int argc, char **argv)
 
         struct List mdbList;
         int size = loadmdb(fp, &mdbList);
-        printf("size: %d\n", size);
 	
         printf("Enter name (will truncate to %d chars): ", (int)(sizeof(myRec.name)-1));
 	if (fgets(line, sizeof(line), stdin) == NULL)
@@ -94,10 +93,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}	
 
-        
-        printf("successfully added: \n"
-                "   name = {%s}\n"
-                "   msg  = {%s}\n", myRec.name, myRec.msg);
+        printf("%d: {%s} said {%s}\n", size + 1,  myRec.name, myRec.msg);
         fflush(stdout);
 	fclose(fp);
         free(record);
