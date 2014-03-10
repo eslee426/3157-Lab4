@@ -72,7 +72,13 @@ int main(int argc, char **argv)
         {
            node = node->next;
         }
-        node = addAfter(&mdbList,node, &myRec);
+        struct MdbRec *record = (struct MdbRec *)malloc(sizeof(myRec));
+        if(!record) {
+            perror("Malloc failed");
+            exit(1);
+        }
+        memcpy(record, &myRec, sizeof(myRec));
+        node = addAfter(&mdbList, node, &record);
 
 	clean(myRec.msg);
         clean(myRec.name);
@@ -94,5 +100,7 @@ int main(int argc, char **argv)
                 "   msg  = {%s}\n", myRec.name, myRec.msg);
         fflush(stdout);
 	fclose(fp);
-	return 0;
+        free(record);
+        return 0;
+
 }

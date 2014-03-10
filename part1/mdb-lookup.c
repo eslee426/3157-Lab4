@@ -26,16 +26,18 @@ int main(int argc, char **argv)
         exit(1);
     }
     
+    // initialize and load list
     struct List mdbList;
     initList(&mdbList);
-    
     loadmdb(fp, &mdbList);
-
+    
+    // prints everything in list if user presses enter
     printf("lookup: ");
     fflush(stdout);
     char buff[1000];
-    int maxChar = 5; // only uses first 5 characters
+    int maxChar = 5; // only uses first 5 characters of lookup
 
+    // searches for lookup keyword
     while(fgets(buff, sizeof(buff), stdin) != NULL) {
         char lookup[maxChar + 1];
         if (strlen(buff) > maxChar) {
@@ -46,7 +48,7 @@ int main(int argc, char **argv)
             lookup[strlen(buff) - 1] = '\0';
         }
 
-        //prints matching lookups from list
+        // prints matching lookups from list
         struct Node *node = mdbList.head;
         int count = 1;
         while(node) {
@@ -57,6 +59,7 @@ int main(int argc, char **argv)
             node = node->next;
             count++;
         }
+        // asks for another lookup
         printf("\nlookup: ");
         fflush(stdout);
     }
