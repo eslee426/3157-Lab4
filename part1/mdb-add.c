@@ -35,7 +35,7 @@ int main(int argc, char **argv)
         struct List mdbList;
         int size = loadmdb(fp, &mdbList);
 	
-        printf("Enter name (will truncate to %d chars): ", (int)(sizeof(myRec.name)-1));
+        printf("name please (will truncate to %d chars): ", (int)(sizeof(myRec.name)-1));
 	if (fgets(line, sizeof(line), stdin) == NULL)
 	{
 		fprintf(stderr, "%s\n", "Uable to read name");
@@ -52,7 +52,7 @@ int main(int argc, char **argv)
 	}
 	
 	
-	printf("Enter message (will truncate to %d chars): ", (int)(sizeof(myRec.msg)-1));
+	printf("msg please (will truncate to %d chars): ", (int)(sizeof(myRec.msg)-1));
 	if (fgets(line, sizeof(line), stdin) == NULL)
 	{
 		fprintf(stderr, "%s\n", "Unable to read message");
