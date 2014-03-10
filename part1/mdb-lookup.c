@@ -5,21 +5,22 @@
  * Description: 
  */
 
+
+#include "mdb.h"
+#include "mylist.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "mdb.h"
-#include "mylist.h"
 
-int main(int argc, char **arv)
+int main(int argc, char **argv)
 {
     if (argc != 2) {
-        fprintf(stderr, "s%\n", "usage: mdb-lookup.c <file_name>");
+        fprintf(stderr, "%s\n", "usage: mdb-lookup.c <file_name>");
         exit(1);
     }
 
     char *filename = argv[1];
-    File *fp = (filename, "rb");
+    FILE *fp = fopen(filename, "rb");
     if (fp == NULL) {
         perror(filename);
         exit(1);
@@ -28,7 +29,7 @@ int main(int argc, char **arv)
     struct List mdbList;
     initList(&mdbList);
     
-    int listSize = loadmdb(&fp, &mdbList);
+    loadmdb(fp, &mdbList);
 
     printf("lookup: ");
     fflush(stdout);
@@ -46,12 +47,12 @@ int main(int argc, char **arv)
         }
 
         //prints matching lookups from list
-        struct Node *node = list.head;
+        struct Node *node = mdbList.head;
         while(node) {
             int count = 1;
             struct MdbRec *recordData = (struct MdbRec *)node->data;
             if (strstr(recordData->name, lookup) || strstr(recordData->msg, lookup)) {
-                printf("%4d: {$s} said {%s}\n", count, recordData->name, recordData->msg);
+                printf("%4d: {%s} said {%s}\n", count, recordData->name, recordData->msg);
             }
             node = node->next;
             count++;
