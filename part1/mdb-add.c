@@ -9,15 +9,13 @@ static void clean(char* c)
 	while (*c)
 	{
 		if (isprint(*c)!=0)
-			*c++ = ' ';
+			*c = ' ';
+                c++;
 	}
 }
 	
 int main(int argc, char **argv)
 {
-	struct List mdbList;
-	initList(&mdbList);
-
 	struct MdbRec myRec;
 	char line[1000];
 
@@ -27,14 +25,18 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	FILE *fp = fopen(argv[1], "ab");
+	FILE *fp = fopen(argv[1], "w+");
 	if(fp == NULL)
 	{
 		perror("Error opening file");
 		exit(1);
 	}
 
-	printf("Enter name (will truncate to %d chars): ", (int)(sizeof(myRec.name)-1));
+        struct List mdbList;
+	initList(&mdbList);
+        loadmdb(fp, &mdbList);
+	
+        printf("Enter name (will truncate to %d chars): ", (int)(sizeof(myRec.name)-1));
 	if (fgets(line, sizeof(line), stdin) == NULL)
 	{
 		fprintf(stderr, "%s\n", "Uable to read name");
@@ -60,15 +62,21 @@ int main(int argc, char **argv)
 
 	strncpy(myRec.msg, line, sizeof(myRec.msg)-1);
 	myRec.msg[sizeof(myRec.msg)-1] = '\0';
-	
 	if(myRec.msg[strlen(myRec.msg)-1] == '\n')
 	{
 		myRec.msg[strlen(myRec.msg)-1] = '\0';
-	}	
-	
-	loadmdb(fp, &mdbList);
-	addFront(&mdbList, &myRec);
-
+	}
+        
+        struct Node *node = mdbList.head;
+        while(node)
+        {
+           if(node->next == NULL)
+           {
+                addAfter(&mdbList, node, &myRec);
+                break;
+           }
+           node = node->next;
+       }
 	if (fwrite(&myRec, sizeof(myRec), 1, fp) < 1)
 	{
 		perror("unable to write");
@@ -81,11 +89,14 @@ int main(int argc, char **argv)
 		exit(1);
 	}	
 
-	printf("successfully added: \n"
-		"	name = {%s}\n"
-		" 	msg = {%s}\n", myRec.name, myRec.msg);
-
-	fflush(stdout);
+        
+        printf("successfully added: \n"
+                "   name = {%s}\n"
+                "   msg  = {%s}\n", myRec.name, myRec.msg);
+        clean(myRec.name);
+	clean(myRec.msg);
+        
+        fflush(stdout);
 	fclose(fp);
 	return 0;
 }
