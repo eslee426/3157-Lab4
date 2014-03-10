@@ -77,7 +77,7 @@ int main(int argc, char **argv)
             exit(1);
         }
         memcpy(record, &myRec, sizeof(myRec));
-        node = addAfter(&mdbList, node, &record);
+        node = addAfter(&mdbList, node, record);
 
 	clean(myRec.msg);
         clean(myRec.name);
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
         printf("%d: {%s} said {%s}\n", size + 1,  myRec.name, myRec.msg);
         fflush(stdout);
 	fclose(fp);
-        free(record);
+	freemdb(&mdbList);
         return 0;
 
 }
