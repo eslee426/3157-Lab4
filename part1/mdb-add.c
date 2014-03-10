@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 		perror("Error opening file");
 		exit(1);
 	}
-	if (fgets(line, (int)sizeof(line), stdin == NULL))
+	if (fgets(line, sizeof(line), stdin) == NULL)
 	{
 		fprintf(stderr, "%s\n", "Uable to read name");
 		exit(1);
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	strncpy(r.msage, line, sizeof(myrRec.msg)-1);
+	strncpy(myRec.msg, line, sizeof(myRec.msg)-1);
 	myRec.msg[sizeof(myRec.msg)-1] = '\0';
 	
 	if(myRec.msg[strlen(myRec.msg)-1] == '\n')
@@ -65,8 +65,8 @@ int main(int argc, char **argv)
 		myRec.msg[strlen(myRec.msg)-1] = '\0';
 	}	
 	
-	int size = loadmdb(fp, &mdbList);
-	addFront(&list, &myRec);
+	loadmdb(fp, &mdbList);
+	addFront(&mdblist, &myRec);
 
 	if (fwrite(&myRec, sizeof(r), 1, fp) < 1)
 	{
