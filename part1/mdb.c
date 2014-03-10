@@ -8,6 +8,7 @@ int loadmdb(FILE *fp, struct List *dest) {
     struct MdbRec myRec;
     struct Node *node = NULL;
     int count = 0;
+    initList(dest);
 
     // puts record into linked list memory
     while (fread(&myRec, sizeof(myRec), 1, fp) == 1) {
@@ -24,7 +25,7 @@ int loadmdb(FILE *fp, struct List *dest) {
             perror("adding error");
             exit(1); 
         }
-        count++;
+        ++count;
     }
 
     if (ferror(fp)) {

@@ -48,8 +48,8 @@ int main(int argc, char **argv)
 
         //prints matching lookups from list
         struct Node *node = mdbList.head;
+        int count = 1;
         while(node) {
-            int count = 1;
             struct MdbRec *recordData = (struct MdbRec *)node->data;
             if (strstr(recordData->name, lookup) || strstr(recordData->msg, lookup)) {
                 printf("%4d: {%s} said {%s}\n", count, recordData->name, recordData->msg);
