@@ -33,13 +33,14 @@ int main(int argc, char **argv)
 		perror("Error opening file");
 		exit(1);
 	}
+
+	printf("Enter name (will truncate to %d chars): ", (int)(sizeof(myRec.name)-1));
 	if (fgets(line, sizeof(line), stdin) == NULL)
 	{
 		fprintf(stderr, "%s\n", "Uable to read name");
 		exit(1);
 	}
 	
-	printf("Enter name (will truncate to %d chars): ", (int)(sizeof(myRec.name)-1));
 	
 	strncpy(myRec.name, line, sizeof(myRec.name)-1);
 	myRec.name[sizeof(myRec.name) -1] = '\0';
