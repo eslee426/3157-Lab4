@@ -66,9 +66,9 @@ int main(int argc, char **argv)
 	}	
 	
 	loadmdb(fp, &mdbList);
-	addFront(&mdblist, &myRec);
+	addFront(&mdbList, &myRec);
 
-	if (fwrite(&myRec, sizeof(r), 1, fp) < 1)
+	if (fwrite(&myRec, sizeof(myRec), 1, fp) < 1)
 	{
 		perror("unable to write");
 		exit(1);
