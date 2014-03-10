@@ -16,7 +16,7 @@ static void clean(char* c)
 int main(int argc, char **argv)
 {
 	struct List mdbList;
-	initlist(&mdbList);
+	initList(&mdbList);
 
 	struct MdbRec myRec;
 	char line[1000];
@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 		perror("Error opening file");
 		exit(1);
 	}
-	if (fgets(line, sizeof(line), stdin == NULL))
+	if (fgets(line, (int)sizeof(line), stdin == NULL))
 	{
 		fprintf(stderr, "%s\n", "Uable to read name");
 		exit(1);
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	printf("Enter name (will truncate to %d chars): ", (int)(sizeof(myRec.name)-1));
 	
 	strncpy(myRec.name, line, sizeof(myRec.name)-1);
-	myRec.name[sizeof(r.name) -1] = '\0';
+	myRec.name[sizeof(myRec.name) -1] = '\0';
 
 	if(myRec.name[strlen(myRec.name)-1] == '\n')
 	{
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	strncpy(r.msage, line, sizeof(myrec.msg)-1);
+	strncpy(r.msage, line, sizeof(myrRec.msg)-1);
 	myRec.msg[sizeof(myRec.msg)-1] = '\0';
 	
 	if(myRec.msg[strlen(myRec.msg)-1] == '\n')
@@ -65,8 +65,8 @@ int main(int argc, char **argv)
 		myRec.msg[strlen(myRec.msg)-1] = '\0';
 	}	
 	
-	int size = loadmdb(&fp, &mdbList);
-	mdbList.addFront(&list, &myRec);
+	int size = loadmdb(fp, &mdbList);
+	addFront(&list, &myRec);
 
 	if (fwrite(&myRec, sizeof(r), 1, fp) < 1)
 	{
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}	
 
-	prinf("successfully added: \n"
+	printf("successfully added: \n"
 		"	name = {%s}\n"
 		" 	msg = {%s}\n", myRec.name, myRec.msg);
 
